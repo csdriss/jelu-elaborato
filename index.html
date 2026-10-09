@@ -367,8 +367,8 @@
       <p style="margin: 0;">Selezione Tecnica Sessione Autunnale 2026 — JELU Consulting</p>
       
       <div class="tab-list">
-        <button class="tab-btn active" onclick="switchTab('tab-strategy')">Executive Summary (Area 1 & 2)</button>
-        <button class="tab-btn" onclick="switchTab('tab-tool')">HR Audit Engine (Area 3)</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'tab-strategy')">Executive Summary (Area 1 & 2)</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-tool')">HR Audit Engine (Area 3)</button>
       </div>
     </header>
 
@@ -480,11 +480,11 @@
     /* --------------------------------------------------------------------------
        UI NAVIGATION LOGIC
        -------------------------------------------------------------------------- */
-    function switchTab(tabId) {
+    function switchTab(e, tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
       
-      event.currentTarget.classList.add('active');
+      e.currentTarget.classList.add('active');
       document.getElementById(tabId).classList.add('active');
     }
 
@@ -506,7 +506,9 @@
     // Drag and Drop Events
     dropzone.addEventListener('click', () => fileInput.click());
     dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'); });
+    // CORREZIONE DELL'ERRORE QUI: rimossa la chiusura extra "});"
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover')); 
+    
     dropzone.addEventListener('drop', (e) => {
       e.preventDefault();
       dropzone.classList.remove('dragover');
