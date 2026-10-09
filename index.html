@@ -3,64 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elaborato Jelu - Driss Ramdaoui</title>
-  <meta name="description" content="Strumento diagnostico client-side per l'audit, il rilevamento delle anomalie e la normalizzazione conforme del dataset JELU_sondaggio_HR_2026.xlsx.">
-  <meta property="og:title" content="JELU Consulting — HR Survey Audit Engine">
-  <meta property="og:description" content="Piattaforma di convalida e bonifica dati per la selezione tecnica JELU Consulting - Area Data, Web & AI.">
-  <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230f172a'><rect width='24' height='24' rx='4'/><path d='M7 12h10M12 7v10' stroke='%23ffffff' stroke-width='2' stroke-linecap='round'/></svg>">
-
+  <title>JELU Elaborato | Driss Ramdaoui</title>
+  <meta name="description" content="Proposta di trasformazione digitale e strumento di data audit per le aree Sales, Consulenza e HR di JELU Consulting.">
+  
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- Core Spreadsheet Engine -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- SheetJS per elaborazione Excel lato client -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <style>
-    /* ==========================================================================
-       DESIGN SYSTEM TOKENS (Strict 8pt Spatial Scale & Controlled Palette)
-       ========================================================================== */
+    /* --------------------------------------------------------------------------
+       DESIGN SYSTEM TOKENS (Strict 8pt Scale)
+       -------------------------------------------------------------------------- */
     :root {
-      /* Neutrals */
-      --slate-900: #0f172a;
-      --slate-800: #1e293b;
-      --slate-700: #334155;
-      --slate-600: #475569;
-      --slate-500: #64748b;
-      --slate-400: #94a3b8;
-      --slate-300: #cbd5e1;
-      --slate-200: #e2e8f0;
-      --slate-100: #f1f5f9;
+      /* Spacing (8pt scale) */
+      --sp-1: 8px;
+      --sp-2: 16px;
+      --sp-3: 24px;
+      --sp-4: 32px;
+      --sp-6: 48px;
+      --sp-8: 64px;
+
+      /* Color Palette */
       --slate-50:  #f8fafc;
-      --white:     #ffffff;
-
-      /* Semantics */
-      --accent:    #1e3a8a;
-      --accent-hover: #172554;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
       
-      --error-bg:     #fef2f2;
-      --error-border: #f87171;
-      --error-text:   #991b1b;
-      --error-badge:  #fee2e2;
+      --blue-600:  #2563eb;
+      --blue-700:  #1d4ed8;
+      
+      --red-50:    #fef2f2;
+      --red-500:   #ef4444;
+      --red-700:   #b91c1c;
 
-      --success-bg:   #f0fdf4;
-      --success-border:#86efac;
-      --success-text: #166534;
-      --success-badge:#dcfce7;
+      --green-50:  #f0fdf4;
+      --green-700: #15803d;
 
-      /* Typography Scales */
+      --surface:   #ffffff;
+      --bg:        var(--slate-50);
+      
+      /* Typography */
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --font-mono: 'JetBrains Mono', Menlo, Consolas, monospace;
-
-      /* Radii & Shadows */
-      --radius: 6px;
-      --shadow-subtle: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
-      --shadow-lift: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      /* Component Base */
+      --radius: 8px;
+      --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+      --border-light: 1px solid var(--slate-200);
     }
 
-    /* Base Reset */
+    /* --------------------------------------------------------------------------
+       RESET & BASE STYLES
+       -------------------------------------------------------------------------- */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -68,764 +72,701 @@
     }
 
     body {
-      background-color: var(--slate-50);
+      background-color: var(--bg);
       color: var(--slate-800);
       font-family: var(--font-sans);
-      font-size: 13px;
-      line-height: 20px;
+      font-size: 14px;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      padding: 40px 24px;
+    }
+
+    h1, h2, h3, h4 {
+      color: var(--slate-900);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      color: var(--slate-500);
+      margin-bottom: var(--sp-2);
     }
 
     .container {
-      max-width: 1440px;
+      max-width: 1040px;
       margin: 0 auto;
+      padding: var(--sp-6) var(--sp-3);
     }
 
-    /* Masthead */
-    .masthead {
-      background: var(--white);
-      border: 1px solid var(--slate-200);
-      border-radius: var(--radius);
-      padding: 24px 32px;
-      margin-bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      box-shadow: var(--shadow-subtle);
-      gap: 24px;
+    /* --------------------------------------------------------------------------
+       NAVIGATION & TABS
+       -------------------------------------------------------------------------- */
+    .header-nav {
+      margin-bottom: var(--sp-6);
+      border-bottom: var(--border-light);
+      padding-bottom: var(--sp-3);
     }
-
-    .masthead-title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.015em;
-      color: var(--slate-900);
-      margin-bottom: 6px;
-    }
-
-    .masthead-desc {
-      color: var(--slate-500);
-      font-size: 13px;
-      max-width: 780px;
-    }
-
-    .meta-tags {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: var(--radius);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      font-family: var(--font-mono);
-    }
-
-    .badge-primary { background: var(--slate-100); color: var(--slate-700); border: 1px solid var(--slate-200); }
-    .badge-success { background: var(--success-badge); color: var(--success-text); border: 1px solid var(--success-border); }
-    .badge-error   { background: var(--error-badge); color: var(--error-text); border: 1px solid var(--error-border); }
-
-    /* File Drop Area */
-    .drop-card {
-      background: var(--white);
-      border: 2px dashed var(--slate-300);
-      border-radius: var(--radius);
-      padding: 32px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.15s ease, background-color 0.15s ease;
-      margin-bottom: 24px;
-    }
-
-    .drop-card:hover, .drop-card.drag-over {
-      border-color: var(--slate-700);
-      background-color: var(--slate-100);
-    }
-
-    .drop-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--slate-900);
-      margin-bottom: 4px;
-    }
-
-    .drop-subtitle {
-      color: var(--slate-500);
-      font-size: 12px;
-    }
-
-    /* KPI Summary Row */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .metric-card {
-      background: var(--white);
-      border: 1px solid var(--slate-200);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      box-shadow: var(--shadow-subtle);
-    }
-
-    .metric-value {
+    
+    .page-title {
       font-size: 24px;
-      font-weight: 700;
-      color: var(--slate-900);
-      font-family: var(--font-mono);
-      line-height: 32px;
+      margin-bottom: var(--sp-1);
     }
 
-    .metric-value.has-anomalies {
-      color: var(--error-text);
+    .tab-list {
+      display: flex;
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
     }
 
-    .metric-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .tab-btn {
+      background: none;
+      border: none;
       color: var(--slate-500);
-      margin-top: 4px;
-    }
-
-    /* Audit Terminal & Diagnostics */
-    .console-section {
-      background: var(--white);
-      border: 1px solid var(--slate-200);
-      border-radius: var(--radius);
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-subtle);
-      overflow: hidden;
-    }
-
-    .section-header {
-      padding: 12px 20px;
-      background: var(--slate-50);
-      border-bottom: 1px solid var(--slate-200);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .section-title {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--slate-600);
-    }
-
-    .diagnostic-stream {
-      max-height: 200px;
-      overflow-y: auto;
-      padding: 8px 0;
-      font-family: var(--font-mono);
-      font-size: 12px;
-    }
-
-    .stream-row {
-      display: grid;
-      grid-template-columns: 120px 200px 180px 1fr;
-      padding: 6px 20px;
-      border-bottom: 1px solid var(--slate-100);
-      align-items: center;
-      gap: 12px;
-    }
-
-    .stream-row:last-child {
-      border-bottom: none;
-    }
-
-    .stream-id { font-weight: 600; color: var(--slate-800); }
-    .stream-col { color: var(--slate-500); }
-    .stream-type { color: var(--error-text); font-weight: 500; }
-    .stream-fix { color: var(--success-text); }
-
-    /* Action Deck */
-    .control-deck {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .deck-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .filter-chip {
-      background: var(--white);
-      border: 1px solid var(--slate-200);
-      padding: 6px 12px;
-      border-radius: var(--radius);
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 500;
+      padding-bottom: var(--sp-1);
       cursor: pointer;
-      color: var(--slate-600);
-      transition: all 0.15s ease;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
     }
 
-    .filter-chip.active {
-      background: var(--slate-800);
-      color: var(--white);
-      border-color: var(--slate-800);
+    .tab-btn:hover {
+      color: var(--slate-800);
+    }
+
+    .tab-btn.active {
+      color: var(--blue-600);
+      border-bottom-color: var(--blue-600);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --------------------------------------------------------------------------
+       COMPONENTS (Cards, Buttons, Badges)
+       -------------------------------------------------------------------------- */
+    .card {
+      background: var(--surface);
+      border: var(--border-light);
+      border-radius: var(--radius);
+      padding: var(--sp-4);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--sp-4);
+    }
+
+    .card-header {
+      margin-bottom: var(--sp-3);
+      padding-bottom: var(--sp-2);
+      border-bottom: var(--border-light);
+    }
+
+    .card-title {
+      font-size: 16px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: var(--radius);
+      justify-content: center;
+      gap: var(--sp-1);
+      padding: var(--sp-1) var(--sp-2);
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 6px;
       border: 1px solid transparent;
       cursor: pointer;
-      font-family: var(--font-sans);
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition: all 0.2s ease;
+      height: 36px;
     }
 
-    .btn-primary { background: var(--slate-900); color: var(--white); }
-    .btn-primary:hover { background: var(--slate-800); }
-    .btn-outline { background: var(--white); border-color: var(--slate-300); color: var(--slate-700); }
-    .btn-outline:hover { background: var(--slate-50); border-color: var(--slate-400); }
-
-    /* Interactive Data Grid */
-    .table-container {
-      background: var(--white);
-      border: 1px solid var(--slate-200);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-subtle);
-      overflow: auto;
-      max-height: 580px;
+    .btn-primary {
+      background-color: var(--slate-900);
+      color: var(--surface);
+    }
+    .btn-primary:hover {
+      background-color: var(--slate-700);
+    }
+    .btn-primary:disabled {
+      background-color: var(--slate-300);
+      cursor: not-allowed;
     }
 
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      font-size: 12px;
-      text-align: left;
-    }
-
-    thead th {
-      background: var(--slate-50);
-      border-bottom: 1px solid var(--slate-200);
-      padding: 10px 14px;
-      font-weight: 600;
+    .btn-outline {
+      background-color: var(--surface);
+      border-color: var(--slate-300);
       color: var(--slate-700);
-      white-space: nowrap;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      cursor: pointer;
-      user-select: none;
+    }
+    .btn-outline:hover {
+      background-color: var(--slate-50);
+      border-color: var(--slate-400);
     }
 
-    thead th:hover {
-      background: var(--slate-100);
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font-mono);
+      line-height: 1;
+    }
+    .badge-error { background: var(--red-50); color: var(--red-700); border: 1px solid #fecaca; }
+    .badge-success { background: var(--green-50); color: var(--green-700); border: 1px solid #bbf7d0; }
+    .badge-neutral { background: var(--slate-100); color: var(--slate-700); border: 1px solid var(--slate-200); }
+
+    /* --------------------------------------------------------------------------
+       GRID & LAYOUT
+       -------------------------------------------------------------------------- */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-3);
+    }
+    
+    .stat-box {
+      border: var(--border-light);
+      border-radius: 6px;
+      padding: var(--sp-2);
+      background: var(--slate-50);
+    }
+    
+    .stat-val {
+      font-size: 20px;
+      font-weight: 600;
       color: var(--slate-900);
     }
-
-    th .sort-icon {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      margin-left: 4px;
-      color: var(--slate-400);
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
 
-    tbody td {
-      padding: 8px 14px;
+    /* --------------------------------------------------------------------------
+       HR AUDIT TOOL (Area 3) SPECIFICS
+       -------------------------------------------------------------------------- */
+    .dropzone {
+      border: 2px dashed var(--slate-300);
+      border-radius: var(--radius);
+      padding: var(--sp-6);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--surface);
+    }
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--blue-600);
+      background: var(--slate-50);
+    }
+
+    .log-container {
+      max-height: 200px;
+      overflow-y: auto;
+      border: var(--border-light);
+      border-radius: 6px;
+      background: var(--surface);
+      margin-bottom: var(--sp-3);
+    }
+
+    .log-item {
+      padding: var(--sp-1) var(--sp-2);
       border-bottom: 1px solid var(--slate-100);
+      font-size: 13px;
+      display: flex;
+      gap: var(--sp-2);
+      align-items: baseline;
+    }
+    .log-item:last-child { border-bottom: none; }
+    
+    .table-container {
+      overflow-x: auto;
+      max-height: 400px;
+      border: var(--border-light);
+      border-radius: 6px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+      background: var(--surface);
+    }
+    
+    th {
+      background: var(--slate-50);
+      padding: var(--sp-1) var(--sp-2);
+      font-weight: 500;
+      color: var(--slate-600);
+      border-bottom: var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 10;
       white-space: nowrap;
+    }
+    
+    td {
+      padding: var(--sp-1) var(--sp-2);
+      border-bottom: 1px solid var(--slate-100);
       color: var(--slate-800);
+      white-space: nowrap;
+    }
+    
+    tr:hover td {
+      background: var(--slate-50);
     }
 
-    tbody tr:hover td {
-      background-color: var(--slate-50);
-    }
-
-    /* Anomaly Cell Highlighting (Deliberate Underline & Tint) */
-    td.cell-anomaly {
-      background-color: var(--error-bg) !important;
-      color: var(--error-text);
-      font-weight: 600;
+    /* Anomaly highlighting */
+    td.cell-error {
+      background-color: var(--red-50);
+      color: var(--red-700);
+      font-weight: 500;
       position: relative;
     }
-
-    td.cell-anomaly::after {
+    td.cell-error::after {
       content: '';
       position: absolute;
-      left: 0;
       bottom: 0;
+      left: 0;
       width: 100%;
       height: 2px;
-      background-color: var(--error-border);
+      background: var(--red-500);
     }
-
-    td.cell-remediated {
-      background-color: var(--success-bg) !important;
-      color: var(--success-text);
-      font-weight: 500;
-    }
-
-    .diff-annot {
-      display: block;
-      font-size: 10px;
-      font-family: var(--font-mono);
-      font-weight: 500;
-      color: var(--error-text);
-      margin-top: 2px;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 32px;
-      padding-top: 16px;
-      border-top: 1px solid var(--slate-200);
-      display: flex;
-      justify-content: space-between;
-      color: var(--slate-500);
-      font-size: 12px;
-    }
-
-    @media (max-width: 960px) {
-      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-      .masthead { flex-direction: column; }
-      .meta-tags { align-items: flex-start; }
-      .stream-row { grid-template-columns: 1fr; }
+    
+    td.cell-fixed {
+      background-color: var(--green-50);
+      color: var(--green-700);
     }
   </style>
 </head>
 <body>
 
-<div class="container">
+  <div class="container">
+    
+    <header class="header-nav">
+      <p style="margin-bottom: 4px; font-weight: 500; color: var(--blue-600); font-size: 13px;">Area: Data, Web & AI</p>
+      <h1 class="page-title">Digital Transformation Proposal</h1>
+      <p style="margin: 0;">Selezione Tecnica Sessione Autunnale 2026 — JELU Consulting</p>
+      
+      <div class="tab-list">
+        <button class="tab-btn active" onclick="switchTab('tab-strategy')">Executive Summary (Area 1 & 2)</button>
+        <button class="tab-btn" onclick="switchTab('tab-tool')">HR Audit Engine (Area 3)</button>
+      </div>
+    </header>
 
-  <!-- MASTHEAD -->
-  <header class="masthead">
-    <div>
-      <div class="badge badge-primary" style="margin-bottom: 8px;">JELU Consulting • Area Data, Web & AI</div>
-      <h1 class="masthead-title">HR Survey Audit & Data Remediation Engine</h1>
-      <p class="masthead-desc">
-        Framework client-side di analisi peritale e correzione automatica per <code>JELU_sondaggio_HR_2026.xlsx</code>.
-        Esegue convalida sintattica, cross-field validation su CAP e geolocalizzazione, de-offuscamento pattern e capping coerente per metriche Likert/NPS.
-      </p>
-    </div>
-    <div class="meta-tags">
-      <span class="badge badge-primary" id="statusBadge">Engine Idling</span>
-      <span style="font-size: 11px; color: var(--slate-400); font-family: var(--font-mono);">Build: v2.4-audit-2026</span>
-    </div>
-  </header>
+    <!-- TAB 1: STRATEGY (Sales & Consulenza) -->
+    <main id="tab-strategy" class="tab-content active">
+      
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">Area 1 — Sales: Automazione Lead Generation</h2>
+        </div>
+        <div class="grid-2">
+          <div>
+            <h3 style="font-size: 14px; margin-bottom: var(--sp-1);">Il Problema Attuale</h3>
+            <p>I lead vengono cercati su LinkedIn e trascritti manualmente in un foglio Excel. Questo processo causa una forte dispersione di ore lavorative, genera record duplicati e introduce errori di sintassi nei contatti email, invalidando il CRM.</p>
+          </div>
+          <div>
+            <h3 style="font-size: 14px; margin-bottom: var(--sp-1);">Soluzione Architetturale</h3>
+            <p>Implementazione di un <strong>Notion CRM</strong> (vista Kanban) abbinato a un'estensione browser (es. Save to Notion). I contatti vengono importati da LinkedIn con 1 clic. I campi in Notion sono fortemente tipizzati (Email, URL, Select), impedendo fisicamente errori di formato e garantendo una pipeline commerciale chiara.</p>
+          </div>
+        </div>
+      </section>
 
-  <!-- DRAG & DROP INGESTION -->
-  <div class="drop-card" id="dropArea" onclick="document.getElementById('fileUpload').click()">
-    <input type="file" id="fileUpload" accept=".xlsx, .xls" style="display: none;" onchange="handleFileSelected(this.files[0])">
-    <div class="drop-title">Trascina qui il file Excel o clicca per selezionarlo</div>
-    <div class="drop-subtitle">Target atteso: <code>sondaggio jelu.xlsx</code> (Offset intestazione: riga 4, foglio <code>Risposte</code>)</div>
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">Area 2 — Consulenza: Hub Operativo Centralizzato</h2>
+        </div>
+        <p style="margin-bottom: var(--sp-3);">Risoluzione delle criticità relative a comunicazione frammentata su Telegram, lentezza nell'allocazione risorse e assenza di monitoraggio commesse.</p>
+        
+        <div class="grid-2">
+          <div class="stat-box" style="background: transparent;">
+            <h4 style="font-size: 13px; margin-bottom: 4px;">1. Comunicazione e Log Decisionale</h4>
+            <p style="font-size: 13px; margin: 0;">Migrazione verso <strong>WhatsApp Business</strong> con creazione di gruppi rigorosamente dedicati per singola commessa (es. <code>#PRJ-Web</code>). Adozione della policy del <em>"Messaggio Verbale"</em>: ogni accordo verbale deve essere riassunto in un messaggio formale fissato in alto nella chat per tracciabilità asincrona.</p>
+          </div>
+          <div class="stat-box" style="background: transparent;">
+            <h4 style="font-size: 13px; margin-bottom: 4px;">2. Capacity Matrix per Staffing</h4>
+            <p style="font-size: 13px; margin: 0;">Creazione di un database condiviso (Notion o Fogli Google) contenente competenze, seniority e ore settimanali residue di ciascun associato. L'assegnazione diventa istantanea filtrando il database per competenza richiesta e disponibilità di tempo.</p>
+          </div>
+          <div class="stat-box" style="background: transparent; grid-column: span 2;">
+            <h4 style="font-size: 13px; margin-bottom: 4px;">3. Monitoraggio Avanzamento Commesse</h4>
+            <p style="font-size: 13px; margin: 0;">Adozione di un cruscotto direzionale (Dashboard) su Notion con vista Timeline/Gantt. Ogni commessa evidenzia lo stato (Da Iniziare, In Corso, In Ritardo), l'Owner di progetto e le milestone chiave, fornendo ai responsabili un quadro di controllo immediato.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- TAB 2: TOOL (HR & Audit Data Cleaning) -->
+    <main id="tab-tool" class="tab-content">
+      <div class="card">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h2 class="card-title">Motore di Validazione Dataset HR</h2>
+            <p style="margin: 0; font-size: 13px;">Carica il file <code>sondaggio jelu.xlsx</code> o simili. Il sistema rileva autonomamente offset, anomalie sintattiche (CAP, Email), outlier (RAL) e limiti (Scale Likert/NPS).</p>
+          </div>
+        </div>
+
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" />
+          <p style="margin: 0; font-weight: 500; color: var(--slate-900);">Clicca o trascina qui il file Excel per avviare l'analisi</p>
+          <p style="font-size: 12px; margin-top: 4px;">Elaborazione deterministica lato client. Nessun dato viene inviato a server esterni.</p>
+        </div>
+
+        <div id="results-panel" style="display: none; margin-top: var(--sp-4);">
+          
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-val" id="stat-total">0</div>
+              <div class="stat-label">Record Elaborati</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="stat-anomalies" style="color: var(--red-700);">0</div>
+              <div class="stat-label">Anomalie Rilevate</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="stat-fixed" style="color: var(--green-700);">0</div>
+              <div class="stat-label">Correzioni Applicate</div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-2);">
+            <h3 style="font-size: 14px;">Registro Diagnostico</h3>
+          </div>
+          
+          <div class="log-container" id="diagnostic-log">
+            <!-- I log verranno iniettati qui -->
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-2); margin-top: var(--sp-4);">
+            <h3 style="font-size: 14px;">Anteprima Matrice Dati</h3>
+            <div style="display: flex; gap: var(--sp-2);">
+              <button class="btn btn-outline" id="btn-toggle-view">Mostra Vista Pulita</button>
+              <button class="btn btn-primary" id="btn-export">Scarica Excel Normalizzato</button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead id="table-head"></thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
   </div>
 
-  <!-- METRICS ROW -->
-  <section class="metrics-grid" id="metricsPanel" style="display: none;">
-    <div class="metric-card">
-      <div class="metric-value" id="valTotal">0</div>
-      <div class="metric-label">Record Ingeriti</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value has-anomalies" id="valAnomalies">0</div>
-      <div class="metric-label">Celle Anomale Rilevate</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value" id="valCaps">0</div>
-      <div class="metric-label">CAP Ripristinati (Cross-Field)</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value" id="valOutliers">0</div>
-      <div class="metric-label">Outlier RAL & NPS Corretti</div>
-    </div>
-  </section>
+  <script>
+    /* --------------------------------------------------------------------------
+       UI NAVIGATION LOGIC
+       -------------------------------------------------------------------------- */
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      event.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
 
-  <!-- DIAGNOSTIC STREAM -->
-  <section class="console-section" id="consoleSection" style="display: none;">
-    <div class="section-header">
-      <span class="section-title">Registro Diagnostico delle Anomalie Intercettate</span>
-      <span style="font-family: var(--font-mono); font-size: 11px; color: var(--slate-500);" id="streamCounter">0 eventi</span>
-    </div>
-    <div class="diagnostic-stream" id="diagnosticStream"></div>
-  </section>
+    /* --------------------------------------------------------------------------
+       DATA AUDIT & CLEANING ENGINE
+       -------------------------------------------------------------------------- */
+    let rawData = [];
+    let cleanData = [];
+    let anomalyLog = [];
+    let currentView = 'raw'; // 'raw' or 'clean'
 
-  <!-- CONTROLS & VIEWER DECK -->
-  <div class="control-deck" id="controlDeck" style="display: none;">
-    <div class="deck-left">
-      <button class="filter-chip active" id="btnViewAll" onclick="setTableView('all')">Tutti i Record</button>
-      <button class="filter-chip" id="btnViewAnomalies" onclick="setTableView('anomalies')">Solo Righe con Errori</button>
-      <button class="filter-chip" id="btnViewClean" onclick="setTableView('clean')">Dataset Normalizzato</button>
-    </div>
-    <div style="display: flex; gap: 8px;">
-      <button class="btn btn-outline" onclick="resetPipeline()">Ripristina</button>
-      <button class="btn btn-primary" onclick="exportConformingExcel()">Esporta Excel Conforme (.xlsx)</button>
-    </div>
-  </div>
+    // DOM Elements
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const resultsPanel = document.getElementById('results-panel');
+    const btnToggle = document.getElementById('btn-toggle-view');
+    const btnExport = document.getElementById('btn-export');
 
-  <!-- DATA MATRIX -->
-  <div class="table-container" id="gridContainer" style="display: none;">
-    <table>
-      <thead><tr id="gridHead"></tr></thead>
-      <tbody id="gridBody"></tbody>
-    </table>
-  </div>
+    // Drag and Drop Events
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'); });
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length) processFile(e.target.files[0]);
+    });
 
-  <!-- FOOTER -->
-  <footer>
-    <span>JELU Consulting — Selezione Tecnica Sessione Autunnale 2026</span>
-    <span>Architettura Client-Side Determinica • Conforme alle Specifiche di Consegna</span>
-  </footer>
+    // File Processing
+    function processFile(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        
+        // Cerca il foglio "Risposte", o prende il primo
+        const sheetName = workbook.SheetNames.includes("Risposte") ? "Risposte" : workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        
+        // Lettura con offset (range: 3 ignora le prime 3 righe di intestazione sporca)
+        // Defval: null per evitare chiavi mancanti negli oggetti JSON
+        rawData = XLSX.utils.sheet_to_json(worksheet, { range: 3, defval: null });
+        
+        executeCleaningPipeline(rawData);
+      };
+      reader.readAsArrayBuffer(file);
+    }
 
-</div>
+    // Core Business Logic: Cross-Field Validation & Normalization
+    function executeCleaningPipeline(rows) {
+      cleanData = [];
+      anomalyLog = [];
+      let totalAnomalies = 0;
 
-<script>
-  /* ==========================================================================
-     CORE DATA STRUCTURES & AUDIT LOGIC
-     ========================================================================== */
-  let rawRecords = [];
-  let auditedRows = [];
-  let diagnosticLog = [];
-  let activeViewMode = 'all'; // 'all' | 'anomalies' | 'clean'
-  let currentSort = { column: null, direction: 'asc' };
+      rows.forEach((row, index) => {
+        let cleanRow = { ...row };
+        let hasError = false;
+        const rowId = row['ID_dipendente'] || `Riga ${index + 4}`;
 
-  const dropZone = document.getElementById('dropArea');
-  ['dragenter', 'dragover'].forEach(name => {
-    dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  });
-  ['dragleave', 'drop'].forEach(name => {
-    dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); });
-  });
-  dropZone.addEventListener('drop', (e) => {
-    if (e.dataTransfer.files.length) handleFileSelected(e.dataTransfer.files[0]);
-  });
+        // 1. Pulizia Colonna Fantasma
+        if ('Colonna1' in cleanRow) {
+          delete cleanRow['Colonna1'];
+        }
 
-  function handleFileSelected(file) {
-    if (!file) return;
-    document.getElementById('statusBadge').className = 'badge badge-primary';
-    document.getElementById('statusBadge').innerText = 'Parsing in corso...';
+        // 2. CAP (Rilevamento perdita zeri in base alla provincia)
+        if ('CAP' in row && row['CAP'] !== null) {
+          let capStr = String(row['CAP']).replace(/\D/g, '');
+          if (capStr.length > 0 && capStr.length < 5) {
+            let prov = String(row['Prov.'] || '').toUpperCase().trim();
+            let fixedCap = capStr;
+            
+            if (prov.includes('RM') || prov === '(RM)') fixedCap = capStr.padStart(5, '0');
+            else if (prov === 'MI' || prov === 'BO') fixedCap = capStr.padEnd(5, '0');
+            else fixedCap = capStr.padStart(5, '0'); // Fallback standard
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames.includes("Risposte") ? "Risposte" : workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
+            cleanRow['CAP'] = fixedCap;
+            hasError = true;
+            anomalyLog.push({ id: rowId, col: 'CAP', issue: `Formato troncato (${row['CAP']})`, fix: fixedCap });
+            totalAnomalies++;
+          }
+        }
 
-      // Offset riga 4 (range: 3) per saltare l'intestazione grafica e uso interno
-      const parsed = XLSX.utils.sheet_to_json(worksheet, { range: 3, defval: null });
-      executeAuditPipeline(parsed);
-    };
-    reader.readAsArrayBuffer(file);
-  }
+        // 3. Email (Recupero chiocciola mancante)
+        if (' E-mail ' in row) {
+          let email = String(row[' E-mail '] || '').trim();
+          if (email && !email.includes('@') && email.length > 2) {
+            let fixedEmail = email;
+            if (email.includes('jeluconsulting.it')) {
+              fixedEmail = email.replace('jeluconsulting.it', '@jeluconsulting.it');
+            } else {
+              fixedEmail = "INVALID_" + email; // Non sanabile
+            }
+            cleanRow[' E-mail '] = fixedEmail;
+            hasError = true;
+            anomalyLog.push({ id: rowId, col: 'Email', issue: `Sintassi errata (${email})`, fix: fixedEmail });
+            totalAnomalies++;
+          }
+        }
 
-  function executeAuditPipeline(rows) {
-    rawRecords = rows;
-    auditedRows = [];
-    diagnosticLog = [];
-
-    let totalAnomalyCells = 0;
-    let capRemediated = 0;
-    let outliersRemediated = 0;
-
-    const npsTextMap = { 'zero': 0, 'uno': 1, 'due': 2, 'tre': 3, 'quattro': 4, 'cinque': 5, 'sei': 6, 'sette': 7, 'otto': 8, 'nove': 9, 'dieci': 10 };
-
-    rows.forEach((r, idx) => {
-      const id = r['ID_dipendente'] || `ROW-${idx + 1}`;
-      const anomalies = {}; 
-      const cleanRow = { ...r };
-      delete cleanRow['Colonna1']; // Eliminazione della colonna fantasma vuota
-
-      // 1. Cross-Field Validation per CAP
-      const prov = String(r['Prov.'] || '').toUpperCase().replace(/[()]/g, '').trim();
-      const city = String(r['Città'] || '').toUpperCase().trim();
-      let capRaw = r['CAP'];
-
-      if (capRaw !== null && capRaw !== undefined) {
-        let capStr = String(capRaw).replace(/\D/g, '');
-        if (capStr.length > 0 && capStr.length < 5) {
-          let fixedCap = capStr;
-
-          if (prov === 'RM' || city.includes('ROMA') || city === 'RM') {
-            if (capStr.length === 3) fixedCap = capStr.padStart(5, '0');
-            else if (capStr.length === 4 && capStr.startsWith('0')) fixedCap = capStr.padEnd(5, '0');
-          } else if (prov === 'MI' || city.includes('MILANO') || prov === 'BO' || city.includes('BOLOGNA')) {
-            if (capStr.length === 4) fixedCap = capStr.padEnd(5, '0');
+        // 4. RAL (Outlier e formati stringa 'k')
+        if ('RAL (€)' in row && row['RAL (€)'] !== null) {
+          let ralStr = String(row['RAL (€)']).toLowerCase().trim();
+          let parsedRal = null;
+          
+          if (ralStr.includes('k')) {
+            parsedRal = parseFloat(ralStr.replace('k', '').replace(',', '.')) * 1000;
           } else {
-            fixedCap = capStr.padStart(5, '0');
+            parsedRal = parseFloat(ralStr.replace(/\./g, '').replace(',', ''));
           }
 
-          anomalies['CAP'] = { type: 'CAP Troncato', fix: `${capStr} → ${fixedCap}` };
-          cleanRow['CAP'] = fixedCap;
-          capRemediated++;
-          totalAnomalyCells++;
-        } else {
-          cleanRow['CAP'] = capStr;
+          if (!isNaN(parsedRal)) {
+            // Outlier check (zero di troppo)
+            if (parsedRal > 200000) {
+              parsedRal = Math.round(parsedRal / 10);
+              hasError = true;
+              anomalyLog.push({ id: rowId, col: 'RAL', issue: `Outlier sospetto (${row['RAL (€)']})`, fix: parsedRal });
+              totalAnomalies++;
+            } else if (ralStr.includes('k')) {
+              hasError = true;
+              anomalyLog.push({ id: rowId, col: 'RAL', issue: `Formato stringa (${row['RAL (€)']})`, fix: parsedRal });
+              totalAnomalies++;
+            }
+            cleanRow['RAL (€)'] = parsedRal;
+          }
         }
-      }
 
-      // 2. Convalida Sintattica Email
-      const email = String(r[' E-mail '] || '').trim();
-      if (!email.includes('@') || email === '?' || email === 'ND') {
-        let remediatedEmail = email;
-        if (email.includes('jeluconsulting.it') && !email.includes('@')) {
-          remediatedEmail = email.replace('jeluconsulting.it', '@jeluconsulting.it');
-        }
-        anomalies[' E-mail '] = { type: 'Sintassi Non Conforme', fix: remediatedEmail };
-        cleanRow[' E-mail '] = remediatedEmail;
-        totalAnomalyCells++;
-      }
-
-      // 3. Normalizzazione Retribuzione (RAL) e Outlier Detection
-      const ralRaw = String(r['RAL (€)'] || '').trim().toLowerCase();
-      if (ralRaw.includes('k')) {
-        let n = parseFloat(ralRaw.replace('k', '').replace(',', '.'));
-        let parsedVal = Math.round(n * 1000);
-        anomalies['RAL (€)'] = { type: 'Sintassi Stringa ("k")', fix: `€${parsedVal.toLocaleString()}` };
-        cleanRow['RAL (€)'] = parsedVal;
-        totalAnomalyCells++;
-      } else {
-        let parsedVal = parseFloat(ralRaw.replace(/\./g, '').replace(',', ''));
-        if (!isNaN(parsedVal) && parsedVal > 200000) {
-          let corrected = Math.round(parsedVal / 10);
-          anomalies['RAL (€)'] = { type: 'Outlier (Zero Extra)', fix: `€${corrected.toLocaleString()}` };
-          cleanRow['RAL (€)'] = corrected;
-          outliersRemediated++;
-          totalAnomalyCells++;
-        } else if (!isNaN(parsedVal)) {
-          cleanRow['RAL (€)'] = parsedVal;
-        }
-      }
-
-      // 4. Convalida Range Likert Scale Q1-Q4 (Scala 1-5)
-      ['Q1_Soddisfazione_Generale', 'Q2 - Rapporto col responsabile', 'Q3_WorkLife', 'Q4 Crescita professionale'].forEach(col => {
-        let val = String(r[col] || '').trim();
-        if (val === '55' || val === '0' || isNaN(val) && val !== '') {
-          let m = val.match(/\b([1-5])\b/);
-          let target = m ? parseInt(m[1]) : (val === '55' ? 5 : null);
-          anomalies[col] = { type: 'Valore Fuori Range / Non Conforme', fix: target !== null ? String(target) : 'Null' };
-          cleanRow[col] = target;
-          outliersRemediated++;
-          totalAnomalyCells++;
-        }
-      });
-
-      // 5. Convalida Net Promoter Score Q5 (Scala 0-10)
-      let npsRaw = String(r['Q5_NPS (0-10)'] || '').trim().toLowerCase();
-      if (npsTextMap[npsRaw] !== undefined) {
-        let fixedNps = npsTextMap[npsRaw];
-        anomalies['Q5_NPS (0-10)'] = { type: 'Formato Testuale', fix: String(fixedNps) };
-        cleanRow['Q5_NPS (0-10)'] = fixedNps;
-        totalAnomalyCells++;
-      } else {
-        let npsNum = parseInt(npsRaw);
-        if (npsNum > 10 || npsNum < 0) {
-          let clamped = Math.min(10, Math.max(0, npsNum));
-          anomalies['Q5_NPS (0-10)'] = { type: 'NPS Fuori Limiti (0-10)', fix: String(clamped) };
-          cleanRow['Q5_NPS (0-10)'] = clamped;
-          outliersRemediated++;
-          totalAnomalyCells++;
-        }
-      }
-
-      // 6. Normalizzazione Booleani
-      let sw = String(r['Smart working?'] || '').trim().toLowerCase();
-      cleanRow['Smart working?'] = (sw.includes('s') || sw.includes('si')) ? 'Sì' : 'No';
-
-      // Conservazione stato
-      auditedRows.push({
-        raw: r,
-        clean: cleanRow,
-        anomalies: anomalies,
-        hasAnomalies: Object.keys(anomalies).length > 0
-      });
-
-      // Append al Diagnostic Stream
-      Object.keys(anomalies).forEach(colName => {
-        diagnosticLog.push({
-          id: id,
-          col: colName,
-          type: anomalies[colName].type,
-          fix: anomalies[colName].fix
+        // 5. Survey Scaling (Q1-Q4)
+        const scaleCols = ['Q1_Soddisfazione_Generale', 'Q2 - Rapporto col responsabile', 'Q3_WorkLife', 'Q4 Crescita professionale'];
+        scaleCols.forEach(col => {
+          if (col in row && row[col] !== null) {
+            let val = String(row[col]).trim();
+            if (val === '55' || val === '0' || isNaN(val)) {
+              let match = val.match(/\b([1-5])\b/);
+              let fixedVal = match ? parseInt(match[1]) : (val === '55' ? 5 : null);
+              if (fixedVal !== null) {
+                cleanRow[col] = fixedVal;
+                hasError = true;
+                anomalyLog.push({ id: rowId, col: col.substring(0,2), issue: `Fuori limite / Testo (${val})`, fix: fixedVal });
+                totalAnomalies++;
+              }
+            }
+          }
         });
-      });
-    });
 
-    // Aggiornamento Metriche
-    document.getElementById('valTotal').innerText = rows.length;
-    document.getElementById('valAnomalies').innerText = totalAnomalyCells;
-    document.getElementById('valCaps').innerText = capRemediated;
-    document.getElementById('valOutliers').innerText = outliersRemediated;
-
-    // Aggiornamento Badge di Stato
-    const status = document.getElementById('statusBadge');
-    status.className = 'badge badge-success';
-    status.innerText = `Audit Completato (${rows.length} Record)`;
-
-    // Render Componenti
-    renderDiagnosticStream();
-    renderDataGrid();
-
-    // Rivelazione Pannelli
-    document.getElementById('metricsPanel').style.display = 'grid';
-    document.getElementById('consoleSection').style.display = 'block';
-    document.getElementById('controlDeck').style.display = 'flex';
-    document.getElementById('gridContainer').style.display = 'block';
-  }
-
-  function renderDiagnosticStream() {
-    const container = document.getElementById('diagnosticStream');
-    document.getElementById('streamCounter').innerText = `${diagnosticLog.length} eventi registrati`;
-    container.innerHTML = '';
-
-    if (!diagnosticLog.length) {
-      container.innerHTML = `<div style="padding: 12px 20px; color: var(--slate-500);">Nessuna anomalia rilevata nel dataset.</div>`;
-      return;
-    }
-
-    diagnosticLog.slice(0, 100).forEach(log => {
-      const row = document.createElement('div');
-      row.className = 'stream-row';
-      row.innerHTML = `
-        <span class="stream-id">${log.id}</span>
-        <span class="stream-col">${log.col}</span>
-        <span class="stream-type">${log.type}</span>
-        <span class="stream-fix">${log.fix}</span>
-      `;
-      container.appendChild(row);
-    });
-  }
-
-  function renderDataGrid() {
-    const thead = document.getElementById('gridHead');
-    const tbody = document.getElementById('gridBody');
-    thead.innerHTML = '';
-    tbody.innerHTML = '';
-
-    // Filtraggio per vista attiva
-    let rowsToDisplay = auditedRows;
-    if (activeViewMode === 'anomalies') {
-      rowsToDisplay = auditedRows.filter(r => r.hasAnomalies);
-    }
-
-    if (!rowsToDisplay.length) {
-      tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding: 24px; color: var(--slate-400);">Nessun record corrispondente ai filtri attivi.</td></tr>`;
-      return;
-    }
-
-    // Elenco colonne attive (esclusa Colonna1)
-    const cols = Object.keys(auditedRows[0].raw).filter(c => c !== 'Colonna1');
-
-    // Header con Sort
-    cols.forEach(col => {
-      const th = document.createElement('th');
-      const sortIcon = (currentSort.column === col) ? (currentSort.direction === 'asc' ? '▲' : '▼') : '↕';
-      th.innerHTML = `${col} <span class="sort-icon">${sortIcon}</span>`;
-      th.onclick = () => sortGridBy(col);
-      thead.appendChild(th);
-    });
-
-    // Render Righe
-    rowsToDisplay.forEach(item => {
-      const tr = document.createElement('tr');
-      cols.forEach(col => {
-        const td = document.createElement('td');
-        const hasError = Boolean(item.anomalies[col]);
-
-        if (activeViewMode === 'clean') {
-          // Visualizzazione normalizzata
-          td.innerText = item.clean[col] !== null ? item.clean[col] : '';
-          if (hasError) td.classList.add('cell-remediated');
-        } else {
-          // Visualizzazione raw con underline diagnostico
-          const rawVal = item.raw[col];
-          if (hasError) {
-            td.classList.add('cell-anomaly');
-            td.innerHTML = `
-              <span>${rawVal !== null ? rawVal : '<em style="color:var(--slate-400);">vuoto</em>'}</span>
-              <span class="diff-annot">${item.anomalies[col].type}</span>
-            `;
+        // 6. NPS (0-10)
+        if ('Q5_NPS (0-10)' in row && row['Q5_NPS (0-10)'] !== null) {
+          let val = String(row['Q5_NPS (0-10)']).trim().toLowerCase();
+          let npsMap = { 'zero':0, 'uno':1, 'due':2, 'tre':3, 'quattro':4, 'cinque':5, 'sei':6, 'sette':7, 'otto':8, 'nove':9, 'dieci':10 };
+          
+          if (npsMap[val] !== undefined) {
+            cleanRow['Q5_NPS (0-10)'] = npsMap[val];
+            hasError = true;
+            anomalyLog.push({ id: rowId, col: 'NPS', issue: `Numero testuale (${val})`, fix: npsMap[val] });
+            totalAnomalies++;
           } else {
-            td.innerText = rawVal !== null ? rawVal : '';
+            let num = parseInt(val);
+            if (!isNaN(num) && (num < 0 || num > 10)) {
+              let clamped = Math.min(10, Math.max(0, num));
+              cleanRow['Q5_NPS (0-10)'] = clamped;
+              hasError = true;
+              anomalyLog.push({ id: rowId, col: 'NPS', issue: `Fuori range (${num})`, fix: clamped });
+              totalAnomalies++;
+            }
           }
         }
-        tr.appendChild(td);
+
+        // Metadati interni per il rendering
+        cleanRow._hasError = hasError;
+        cleanRow._original = row;
+        
+        cleanData.push(cleanRow);
       });
-      tbody.appendChild(tr);
-    });
-  }
 
-  function setTableView(mode) {
-    activeViewMode = mode;
-    document.getElementById('btnViewAll').classList.toggle('active', mode === 'all');
-    document.getElementById('btnViewAnomalies').classList.toggle('active', mode === 'anomalies');
-    document.getElementById('btnViewClean').classList.toggle('active', mode === 'clean');
-    renderDataGrid();
-  }
+      // Update Dashboard
+      document.getElementById('stat-total').textContent = rows.length;
+      document.getElementById('stat-anomalies').textContent = totalAnomalies;
+      document.getElementById('stat-fixed').textContent = totalAnomalies;
+      
+      renderLog();
+      renderTable();
+      resultsPanel.style.display = 'block';
+      dropzone.style.display = 'none';
+    }
 
-  function sortGridBy(col) {
-    const dir = (currentSort.column === col && currentSort.direction === 'asc') ? 'desc' : 'asc';
-    currentSort = { column: col, direction: dir };
-
-    auditedRows.sort((a, b) => {
-      let valA = activeViewMode === 'clean' ? a.clean[col] : a.raw[col];
-      let valB = activeViewMode === 'clean' ? b.clean[col] : b.raw[col];
-
-      if (valA === null || valA === undefined) return 1;
-      if (valB === null || valB === undefined) return -1;
-
-      if (!isNaN(valA) && !isNaN(valB)) {
-        return dir === 'asc' ? valA - valB : valB - valA;
+    function renderLog() {
+      const logContainer = document.getElementById('diagnostic-log');
+      logContainer.innerHTML = '';
+      
+      if (anomalyLog.length === 0) {
+        logContainer.innerHTML = '<div class="log-item" style="color: var(--slate-500);">Nessuna anomalia rilevata. Dataset integro.</div>';
+        return;
       }
-      return dir === 'asc'
-        ? String(valA).localeCompare(String(valB))
-        : String(valB).localeCompare(String(valA));
+
+      anomalyLog.slice(0, 100).forEach(log => {
+        logContainer.innerHTML += `
+          <div class="log-item">
+            <span class="badge badge-neutral" style="min-width: 80px; text-align: center;">${log.id}</span>
+            <span style="font-weight: 500; min-width: 60px;">${log.col}</span>
+            <span style="color: var(--slate-500); flex-grow: 1;">rilevato <strong>${log.issue}</strong></span>
+            <span style="color: var(--slate-400);">➔</span>
+            <span class="badge badge-success">${log.fix}</span>
+          </div>
+        `;
+      });
+      
+      if (anomalyLog.length > 100) {
+        logContainer.innerHTML += `<div class="log-item" style="color: var(--slate-500); justify-content: center;">...altre ${anomalyLog.length - 100} anomalie tracciate in memoria.</div>`;
+      }
+    }
+
+    function renderTable() {
+      const thead = document.getElementById('table-head');
+      const tbody = document.getElementById('table-body');
+      thead.innerHTML = '';
+      tbody.innerHTML = '';
+
+      if (cleanData.length === 0) return;
+
+      // Extract headers (exclude internal keys)
+      const headers = Object.keys(cleanData[0]).filter(k => !k.startsWith('_') && k !== 'Colonna1');
+
+      // Build Header
+      let trHead = '<tr>';
+      headers.forEach(h => trHead += `<th>${h}</th>`);
+      trHead += '</tr>';
+      thead.innerHTML = trHead;
+
+      // Build Body (limit to 50 rows for browser performance in preview)
+      cleanData.slice(0, 50).forEach(row => {
+        let tr = document.createElement('tr');
+        
+        headers.forEach(h => {
+          let td = document.createElement('td');
+          let val = currentView === 'clean' ? row[h] : row._original[h];
+          let isDifferent = String(row[h]) !== String(row._original[h]);
+          
+          td.textContent = (val !== null && val !== undefined) ? val : '';
+          
+          if (isDifferent) {
+            td.className = currentView === 'clean' ? 'cell-fixed' : 'cell-error';
+            td.title = currentView === 'raw' ? 'Rilevata anomalia' : 'Dato corretto dall\'engine';
+          }
+          
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Toggle View Interaction
+    btnToggle.addEventListener('click', () => {
+      if (currentView === 'raw') {
+        currentView = 'clean';
+        btnToggle.textContent = 'Mostra Dati Grezzi Originali';
+        btnToggle.classList.replace('btn-outline', 'btn-primary');
+      } else {
+        currentView = 'raw';
+        btnToggle.textContent = 'Mostra Vista Pulita';
+        btnToggle.classList.replace('btn-primary', 'btn-outline');
+      }
+      renderTable();
     });
 
-    renderDataGrid();
-  }
+    // Export Interaction
+    btnExport.addEventListener('click', () => {
+      // Prepara i dati escludendo le chiavi interne usate per la logica UI
+      const exportPayload = cleanData.map(row => {
+        const cleanObj = { ...row };
+        delete cleanObj._hasError;
+        delete cleanObj._original;
+        return cleanObj;
+      });
+      
+      const ws = XLSX.utils.json_to_sheet(exportPayload);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Dati_HR_Audit_Ready");
+      XLSX.writeFile(wb, "JELU_sondaggio_HR_2026_audit_ready.xlsx");
+    });
 
-  function exportConformingExcel() {
-    const datasetToExport = auditedRows.map(r => r.clean);
-    const ws = XLSX.utils.json_to_sheet(datasetToExport);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Dati_HR_Audit_Ready");
-    XLSX.writeFile(wb, "JELU_sondaggio_HR_2026_audit_ready.xlsx");
-  }
-
-  function resetPipeline() {
-    document.getElementById('fileUpload').value = '';
-    rawRecords = [];
-    auditedRows = [];
-    diagnosticLog = [];
-    document.getElementById('metricsPanel').style.display = 'none';
-    document.getElementById('consoleSection').style.display = 'none';
-    document.getElementById('controlDeck').style.display = 'none';
-    document.getElementById('gridContainer').style.display = 'none';
-    document.getElementById('statusBadge').className = 'badge badge-primary';
-    document.getElementById('statusBadge').innerText = 'Engine Idling';
-  }
-</script>
-
+  </script>
 </body>
 </html>
