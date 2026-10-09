@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elaborato Tecnico: Digital Transformation — JELU Consulting</title>
+  <meta name="description" content="Proposta architetturale e pipeline interattiva per l'audit dei processi di Sales, Consulenza e HR & Audit per la selezione tecnica JELU Consulting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM TOKENS (Strict 8pt Spatial Scale & Semantic Monochrome Palette)
+       ========================================================================== */
+    :root {
+      /* Palette */
+      --color-slate-900: #0f172a;
+      --color-slate-800: #1e293b;
+      --color-slate-700: #334155;
+      --color-slate-600: #475569;
+      --color-slate-500: #64748b;
+      --color-slate-400: #94a3b8;
+      --color-slate-300: #cbd5e1;
+      --color-slate-200: #e2e8f0;
+      --color-slate-100: #f1f5f9;
+      --color-slate-50:  #f8fafc;
+      --color-white:     #ffffff;
+
+      --color-brand-primary: #1e3a8a;
+      --color-brand-hover:   #172554;
+      --color-brand-subtle:  #eff6ff;
+      --color-brand-border:  #bfdbfe;
+
+      --color-status-success-bg: #f0fdf4;
+      --color-status-success-fg: #15803d;
+      --color-status-success-bd: #bbf7d0;
+
+      --color-status-warning-bg: #fffbeb;
+      --color-status-warning-fg: #b45309;
+      --color-status-warning-bd: #fde68a;
+
+      --color-status-danger-bg: #fef2f2;
+      --color-status-danger-fg: #b91c1c;
+      --color-status-danger-bd: #fecaca;
+
+      /* Typography */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Radii */
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+      --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08);
+
+      /* Layout */
+      --max-width: 1040px;
+    }
+
+    /* Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-slate-50);
+      color: var(--color-slate-700);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 24px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* Headings & Text Hierarchy */
+    h1, h2, h3, h4 {
+      color: var(--color-slate-900);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+    }
+
+    h1 { font-size: 24px; line-height: 32px; font-weight: 700; }
+    h2 { font-size: 18px; line-height: 24px; margin-bottom: 8px; }
+    h3 { font-size: 14px; line-height: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-slate-500); margin-bottom: 16px; }
+
+    p { margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* Top Metadata Masthead */
+    .masthead {
+      border-bottom: 1px solid var(--color-slate-200);
+      padding-bottom: 32px;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--color-slate-100);
+      border: 1px solid var(--color-slate-200);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-slate-700);
+      margin-bottom: 12px;
+    }
+
+    .meta-list {
+      display: flex;
+      gap: 32px;
+      font-size: 13px;
+      color: var(--color-slate-500);
+      list-style: none;
+    }
+
+    .meta-list strong {
+      color: var(--color-slate-800);
+      font-weight: 500;
+    }
+
+    /* Layout Cards & Structural Grid */
+    .card {
+      background: var(--color-white);
+      border: 1px solid var(--color-slate-200);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--color-slate-100);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .area-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      background: var(--color-slate-100);
+      border: 1px solid var(--color-slate-200);
+      border-radius: var(--radius-sm);
+      color: var(--color-slate-600);
+    }
+
+    /* Structured Analytical Lists */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .spec-col {
+      background: var(--color-slate-50);
+      border: 1px solid var(--color-slate-200);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .spec-col h4 {
+      font-size: 13px;
+      margin-bottom: 8px;
+      color: var(--color-slate-800);
+    }
+
+    .spec-col p {
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--color-slate-600);
+    }
+
+    /* Data Clean Bench & Interactive UI */
+    .audit-controls {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1fr auto;
+      gap: 12px;
+      align-items: flex-end;
+      background: var(--color-slate-50);
+      border: 1px solid var(--color-slate-200);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-group label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-slate-600);
+    }
+
+    input, select {
+      background: var(--color-white);
+      border: 1px solid var(--color-slate-300);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--color-slate-800);
+      font-family: var(--font-sans);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      height: 38px;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--color-brand-primary);
+      box-shadow: 0 0 0 1px var(--color-brand-primary);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 38px;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      font-family: var(--font-sans);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--color-slate-900);
+      color: var(--color-white);
+      border-color: var(--color-slate-900);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-slate-800);
+    }
+
+    .btn-secondary {
+      background: var(--color-white);
+      color: var(--color-slate-700);
+      border-color: var(--color-slate-300);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-slate-100);
+      border-color: var(--color-slate-400);
+    }
+
+    .btn-danger-outline {
+      background: var(--color-white);
+      color: var(--color-slate-500);
+      border-color: var(--color-slate-200);
+      font-size: 12px;
+    }
+
+    .btn-danger-outline:hover {
+      color: var(--color-status-danger-fg);
+      border-color: var(--color-status-danger-bd);
+      background: var(--color-status-danger-bg);
+    }
+
+    /* Action Deck */
+    .action-deck {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .action-deck-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* Tables */
+    .table-container {
+      border: 1px solid var(--color-slate-200);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--color-white);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      background: var(--color-slate-50);
+      border-bottom: 1px solid var(--color-slate-200);
+      color: var(--color-slate-600);
+      font-weight: 600;
+      padding: 10px 16px;
+      letter-spacing: 0.02em;
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-slate-100);
+      color: var(--color-slate-800);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background-color: var(--color-slate-50);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+    }
+
+    .badge-raw {
+      background: var(--color-status-warning-bg);
+      color: var(--color-status-warning-fg);
+      border: 1px solid var(--color-status-warning-bd);
+    }
+
+    .badge-clean {
+      background: var(--color-status-success-bg);
+      color: var(--color-status-success-fg);
+      border: 1px solid var(--color-status-success-bd);
+    }
+
+    .mono-cell {
+      font-family: var(--font-mono);
+      color: var(--color-slate-500);
+      font-size: 12px;
+    }
+
+    /* Terminal-styled Pipeline Output */
+    .system-log {
+      margin-top: 16px;
+      background: var(--color-slate-900);
+      color: var(--color-slate-300);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .log-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-slate-400);
+    }
+
+    .log-dot.active {
+      background: #4ade80;
+    }
+
+    /* Technical Footer */
+    footer {
+      border-top: 1px solid var(--color-slate-200);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--color-slate-500);
+      font-size: 12px;
+    }
+
+    @media (max-width: 820px) {
+      .spec-grid { grid-template-columns: 1fr; }
+      .audit-controls { grid-template-columns: 1fr; }
+      .action-deck { flex-direction: column; align-items: stretch; }
+      .meta-list { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div>
+      <span class="meta-badge">Valutazione Candidatura Tecnica — Sessione Autunnale 2026</span>
+      <h1>Audit & Digital Transformation</h1>
+      <p style="color: var(--color-slate-500); margin-top: 4px;">Elaborato per l'accesso al colloquio tecnico | JELU Consulting, Viale Romania 32, Roma</p>
+    </div>
+    <ul class="meta-list">
+      <li>Area Target: <strong>Data, Web & AI</strong></li>
+      <li>Consegna: <strong>09 Ottobre 2026</strong></li>
+      <li>Criteri: <strong>Fattibilità • Chiarezza • Scalabilità</strong></li>
+    </ul>
+  </header>
+
+  <!-- AREA 1: SALES -->
+  <section class="card">
+    <div class="card-header">
+      <div>
+        <h2>1. Ingegnerizzazione Pipeline Sales CRM</h2>
+        <p style="color: var(--color-slate-500); font-size: 13px;">Sostituzione del workflow di ricerca e data-entry manuale da LinkedIn a fogli di calcolo.</p>
+      </div>
+      <span class="area-tag">AREA_SALES</span>
+    </div>
+
+    <div class="spec-grid">
+      <div class="spec-col">
+        <h4>Collo di Bottiglia Attuale</h4>
+        <p>I lead vengono cercati singolarmente su LinkedIn e ricopiati su Excel. Il processo genera fino a 15h/uomo settimanali di lavoro ripetitivo e genera record incompleti, mail errate e duplicazioni.</p>
+      </div>
+      <div class="spec-col">
+        <h4>Architettura di Automazione</h4>
+        <p>Estrazione automatizzata via PhantomBuster o API Sales Navigator. Webhook di ingestione verso istanza <strong>n8n</strong> con nodi di parsing, validazione della sintassi email e dedup prima della scrittura.</p>
+      </div>
+      <div class="spec-col">
+        <h4>Infrastruttura Dati Finale</h4>
+        <p>Archiviazione strutturata su HubSpot CRM (o Notion Database API con schema rigido). Accesso in lettura/scrittura con chiavi perimetrate e blocco dei campi modificabili a mano.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AREA 2: CONSULENZA -->
+  <section class="card">
+    <div class="card-header">
+      <div>
+        <h2>2. Governance Operativa Commesse & Risorse</h2>
+        <p style="color: var(--color-slate-500); font-size: 13px;">Centralizzazione delle comunicazioni, dello staffing e del monitoraggio avanzamento progetti.</p>
+      </div>
+      <span class="area-tag">AREA_CONSULENZA</span>
+    </div>
+
+    <div class="spec-grid">
+      <div class="spec-col">
+        <h4>Hub di Comunicazione</h4>
+        <p>Dismissione di chat generiche Telegram a favore di Slack/Teams aziendale. Canali univoci per commessa (<code>#commessa-[id]</code>), obbligo di log per i verbali e tracking delle decisioni asincrone.</p>
+      </div>
+      <div class="spec-col">
+        <h4>Matrice di Allocazione (Staffing)</h4>
+        <p>Creazione di una Capacity Matrix interrogabile: associazione puntuale tra ore disponibili per associato, livello di seniority e cluster di skill (Data Engineering, Web Dev, AI/ML).</p>
+      </div>
+      <div class="spec-col">
+        <h4>Tracciamento Milestone</h4>
+        <p>Adozione di board Kanban/Gantt (ClickUp o GitHub Projects). Ogni deliverable è vincolato a scadenze esplicite, owner e avanzamento percentuale per mitigare ritardi verso i clienti.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AREA 3: HR & AUDIT (INTERACTIVE ENGINE) -->
+  <section class="card">
+    <div class="card-header">
+      <div>
+        <h2>3. Pipeline di Normalizzazione & Audit Dataset</h2>
+        <p style="color: var(--color-slate-500); font-size: 13px;">Script di normalizzazione, rimozione anomalie e storage locale per <code>JELU_sondaggio_HR_2026.xlsx</code>.</p>
+      </div>
+      <span class="area-tag">AREA_HR_AUDIT</span>
+    </div>
+
+    <!-- Modulo di Inserimento Manuale -->
+    <div class="audit-controls">
+      <div class="field-group">
+        <label for="inputName">Nome Associato (Test stringa sporca)</label>
+        <input type="text" id="inputName" placeholder="Es.   mario rossi   ">
+      </div>
+      <div class="field-group">
+        <label for="inputArea">Area di Riferimento</label>
+        <select id="inputArea">
+          <option value="">Seleziona area...</option>
+          <option value="sales">sales</option>
+          <option value="hr & audit">hr & audit</option>
+          <option value="consulenza">consulenza</option>
+          <option value="data, web & ai">data, web & ai</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label for="inputScore">Punteggio (Scala 1-5)</label>
+        <input type="number" id="inputScore" placeholder="Es. 99 (Outlier)">
+      </div>
+      <button class="btn btn-primary" onclick="handleRecordInsert()">Inserisci Record</button>
+    </div>
+
+    <!-- Barra Azioni Pipeline -->
+    <div class="action-deck">
+      <div class="action-deck-group">
+        <button class="btn btn-primary" id="pipelineBtn" onclick="runCleaningPipeline()">Esegui Pipeline di Pulizia</button>
+        <button class="btn btn-secondary" onclick="exportVerifiedDataset()">Esporta CSV Conforme</button>
+      </div>
+      <button class="btn btn-danger-outline" onclick="resetDataset()">Ripristina Dati Grezzi</button>
+    </div>
+
+    <!-- Tabella Dati -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 10%;">ID</th>
+            <th style="width: 32%;">Associato</th>
+            <th style="width: 25%;">Area</th>
+            <th style="width: 18%;">Punteggio (1–5)</th>
+            <th style="width: 15%;">Stato Audit</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Feedback Operativo -->
+    <div class="system-log">
+      <div class="log-dot active" id="logDot"></div>
+      <span id="systemFeedback">Storage locale sincronizzato. Dataset inizializzato con record non conformi (RAW).</span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>JELU Consulting — Area Data, Web & AI</span>
+    <span>Architettura conforme ai requisiti di selezione tecnica 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  /* ==========================================================================
+     DATA ENGINE & AUDIT LOGIC (Client-Side Persistence via localStorage)
+     ========================================================================== */
+  const SEED_DATA = [
+    { id: 101, name: "  Marco Rossi  ", area: "sales", score: "5", status: "raw" },
+    { id: 102, name: "giulia BIANCHI", area: "HR & Audit", score: "4", status: "raw" },
+    { id: 101, name: "Marco Rossi", area: "Sales", score: "5", status: "raw" }, // Duplicato univocità
+    { id: 103, name: "Luca Verdi", area: "Consulenza", score: "99", status: "raw" }, // Outlier fuori scala
+    { id: 104, name: "Anna Neri", area: "data, web & ai", score: null, status: "raw" } // Valore omesso
+  ];
+
+  function getDataset() {
+    const raw = localStorage.getItem("jelu_audit_store");
+    return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(SEED_DATA));
+  }
+
+  function commitDataset(data) {
+    localStorage.setItem("jelu_audit_store", JSON.stringify(data));
+  }
+
+  function renderTable() {
+    const records = getDataset();
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+
+    records.forEach(row => {
+      const tr = document.createElement("tr");
+      const isClean = row.status === "clean";
+      
+      tr.innerHTML = `
+        <td class="mono-cell">#${row.id}</td>
+        <td><strong>${escapeHtml(row.name)}</strong></td>
+        <td>${escapeHtml(row.area)}</td>
+        <td class="mono-cell">${row.score !== null ? row.score : '<span style="color:var(--color-slate-400)">N/D (Imputato)</span>'}</td>
+        <td><span class="badge ${isClean ? 'badge-clean' : 'badge-raw'}">${isClean ? 'CONFORME' : 'NON VERIFICATO'}</span></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function handleRecordInsert() {
+    const nameInput = document.getElementById("inputName");
+    const areaInput = document.getElementById("inputArea");
+    const scoreInput = document.getElementById("inputScore");
+
+    const name = nameInput.value;
+    const area = areaInput.value || "Non Specificata";
+    const scoreVal = scoreInput.value;
+
+    if (!name.trim()) {
+      setLogMessage("Compilare il campo Nome Associato per procedere all'inserimento.", "error");
+      return;
+    }
+
+    const records = getDataset();
+    records.push({
+      id: Math.floor(100 + Math.random() * 899),
+      name: name,
+      area: area,
+      score: scoreVal !== "" ? Number(scoreVal) : null,
+      status: "raw"
+    });
+
+    commitDataset(records);
+    renderTable();
+
+    nameInput.value = "";
+    areaInput.value = "";
+    scoreInput.value = "";
+
+    setLogMessage("Nuovo record aggiunto con successo in memoria locale (Stato: RAW).", "success");
+  }
+
+  function runCleaningPipeline() {
+    const btn = document.getElementById("pipelineBtn");
+    btn.disabled = true;
+    btn.innerText = "Elaborazione in corso...";
+
+    // Simulazione latenza di calcolo asincrono
+    setTimeout(() => {
+      const records = getDataset();
+      const seenIds = new Set();
+      const cleaned = [];
+
+      records.forEach(item => {
+        // 1. Deduplicazione
+        if (seenIds.has(item.id)) return;
+        seenIds.add(item.id);
+
+        // 2. Normalizzazione del testo (Trimming e Title Case deterministico)
+        let nameNorm = item.name.trim().toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        let areaNorm = item.area.trim().toUpperCase();
+
+        // 3. Imputazione dati mancanti e gestione Outliers (scala 1-5)
+        let scoreNorm = (item.score !== null && item.score !== "") ? Number(item.score) : 3;
+        if (scoreNorm > 5) scoreNorm = 5;
+        if (scoreNorm < 1) scoreNorm = 1;
+
+        cleaned.push({
+          id: item.id,
+          name: nameNorm,
+          area: areaNorm,
+          score: scoreNorm,
+          status: "clean"
+        });
+      });
+
+      commitDataset(cleaned);
+      renderTable();
+
+      btn.disabled = false;
+      btn.innerText = "Esegui Pipeline di Pulizia";
+      setLogMessage(`Pipeline completata: ${records.length - cleaned.length} duplicati rimossi, testi formattati, outlier corretti.`, "success");
+    }, 280);
+  }
+
+  function exportVerifiedDataset() {
+    const records = getDataset();
+    let csv = "ID_ASSOCIATO,NOME_COMPLETO,DIPARTIMENTO,PUNTEGGIO_SODDISFAZIONE,STATO_VALIDAZIONE\n";
+
+    records.forEach(r => {
+      csv += `${r.id},"${r.name}","${r.area}",${r.score !== null ? r.score : ""},${r.status}\n`;
+    });
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "JELU_sondaggio_HR_2026_audit_ready.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+
+    setLogMessage("File JELU_sondaggio_HR_2026_audit_ready.csv esportato.", "success");
+  }
+
+  function resetDataset() {
+    localStorage.removeItem("jelu_audit_store");
+    renderTable();
+    setLogMessage("Memoria locale azzerata. Dataset ripristinato allo stato grezzo di origine.", "info");
+  }
+
+  function setLogMessage(text, type) {
+    const feedback = document.getElementById("systemFeedback");
+    const dot = document.getElementById("logDot");
+    feedback.innerText = text;
+
+    if (type === "error") {
+      dot.style.background = "var(--color-status-danger-fg)";
+    } else if (type === "success") {
+      dot.style.background = "#4ade80";
+    } else {
+      dot.style.background = "var(--color-slate-400)";
+    }
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Esecuzione al caricamento
+  renderTable();
+</script>
+
+</body>
+</html>
