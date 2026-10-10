@@ -3,160 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JELU Elaborato | Driss Ramdaoui</title>
-  <meta name="description" content="Presentazione delle soluzioni di ottimizzazione operativa per le aree Sales, Consulenza e HR di JELU Consulting.">
+  <title>JELU Consulting | Ottimizzazione Processi</title>
   
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
+  <!-- Librerie per il calcolo ed export dei file Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <style>
     /* ==========================================================================
        DESIGN SYSTEM & TOKENS
        ========================================================================== */
     :root {
-      /* Spacing: 8pt Scale */
-      --sp-1: 8px; 
-      --sp-2: 16px; 
-      --sp-3: 24px; 
-      --sp-4: 32px; 
-      --sp-5: 40px; 
-      --sp-6: 48px; 
-      --sp-8: 64px;
-      --sp-12: 96px;
-      --sp-16: 128px;
+      --sp-1: 8px; --sp-2: 16px; --sp-3: 24px; --sp-4: 32px; --sp-5: 40px; 
+      --sp-6: 48px; --sp-8: 64px; --sp-12: 96px; --sp-16: 128px;
 
-      /* Typography */
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-sans: 'Inter', -apple-system, sans-serif;
       
-      --text-xs: 0.75rem;  /* 12px */
-      --text-sm: 0.875rem; /* 14px */
-      --text-base: 1rem;   /* 16px */
-      --text-lg: 1.125rem; /* 18px */
-      --text-xl: 1.25rem;  /* 20px */
-      --text-2xl: 1.5rem;  /* 24px */
-      --text-3xl: 2rem;    /* 32px */
-      --text-4xl: 2.5rem;  /* 40px */
+      --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem;
+      --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem;
+      --text-3xl: 2rem; --text-4xl: 2.5rem;
 
-      --line-height-tight: 1.2;
-      --line-height-base: 1.6;
-
-      /* Color Palette */
-      --slate-50:  #f8fafc;
-      --slate-100: #f1f5f9;
-      --slate-200: #e2e8f0;
-      --slate-300: #cbd5e1;
-      --slate-400: #94a3b8;
-      --slate-500: #64748b;
-      --slate-600: #475569;
-      --slate-700: #334155;
-      --slate-800: #1e293b;
+      --slate-50:  #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1; --slate-400: #94a3b8; --slate-500: #64748b;
+      --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b;
       --slate-900: #0f172a;
       
-      --blue-600:  #2563eb;
-      --blue-700:  #1d4ed8;
-      
-      --green-600: #16a34a;
+      --blue-600:  #2563eb; --blue-700:  #1d4ed8;
+      --green-600: #16a34a; --green-700: #15803d; --green-50: #f0fdf4;
 
-      --bg-color: var(--slate-50);
-      --surface:  #ffffff;
-      --border:   var(--slate-200);
+      --bg-color: var(--slate-50); --surface: #ffffff; --border: var(--slate-200);
 
-      /* Components */
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --radius-xl: 16px;
-      
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px;
       --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
       
       --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* ==========================================================================
-       RESET & BASE
-       ========================================================================== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
-    body {
-      background-color: var(--bg-color); 
-      color: var(--slate-800);
-      font-family: var(--font-sans); 
-      font-size: var(--text-base); 
-      line-height: var(--line-height-base);
-      -webkit-font-smoothing: antialiased; 
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    h1, h2, h3, h4 { 
-      color: var(--slate-900); 
-      font-weight: 700; 
-      line-height: var(--line-height-tight); 
-      letter-spacing: -0.015em; 
-    }
-    
+    body { background-color: var(--bg-color); color: var(--slate-800); font-family: var(--font-sans); font-size: var(--text-base); line-height: 1.6; }
+    h1, h2, h3, h4 { color: var(--slate-900); font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; }
     p { color: var(--slate-600); }
     svg { flex-shrink: 0; }
 
-    /* ==========================================================================
-       LAYOUT & UTILITIES
-       ========================================================================== */
-    .container { 
-      max-width: 1120px; 
-      margin: 0 auto; 
-      padding: 0 var(--sp-4); 
-    }
-    
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 var(--sp-4); }
     .section { padding: var(--sp-12) 0; border-bottom: 1px solid var(--border); }
     .section:last-child { border-bottom: none; }
     
-    .flex { display: flex; }
-    .flex-col { flex-direction: column; }
-    .items-center { align-items: center; }
-    .justify-center { justify-content: center; }
-    .justify-between { justify-content: space-between; }
+    .flex { display: flex; } .flex-col { flex-direction: column; } 
+    .items-center { align-items: center; } .justify-center { justify-content: center; } .justify-between { justify-content: space-between; }
     
-    .gap-2 { gap: var(--sp-2); }
-    .gap-3 { gap: var(--sp-3); }
-    .gap-4 { gap: var(--sp-4); }
-    .gap-6 { gap: var(--sp-6); }
-    .gap-8 { gap: var(--sp-8); }
+    .gap-2 { gap: var(--sp-2); } .gap-3 { gap: var(--sp-3); } .gap-4 { gap: var(--sp-4); } .gap-6 { gap: var(--sp-6); } .gap-8 { gap: var(--sp-8); }
+    .mt-4 { margin-top: var(--sp-4); } .mb-2 { margin-bottom: var(--sp-2); } .mb-4 { margin-bottom: var(--sp-4); } .mb-6 { margin-bottom: var(--sp-6); } .mb-8 { margin-bottom: var(--sp-8); }
     
-    .mt-2 { margin-top: var(--sp-2); }
-    .mt-4 { margin-top: var(--sp-4); }
-    .mt-6 { margin-top: var(--sp-6); }
-    .mb-2 { margin-bottom: var(--sp-2); }
-    .mb-4 { margin-bottom: var(--sp-4); }
-    .mb-6 { margin-bottom: var(--sp-6); }
-    .mb-8 { margin-bottom: var(--sp-8); }
+    .text-xs { font-size: var(--text-xs); } .text-sm { font-size: var(--text-sm); } .text-base { font-size: var(--text-base); }
+    .text-lg { font-size: var(--text-lg); } .text-xl { font-size: var(--text-xl); } .text-2xl { font-size: var(--text-2xl); }
+    .text-3xl { font-size: var(--text-3xl); } .text-4xl { font-size: var(--text-4xl); }
     
-    .text-xs { font-size: var(--text-xs); }
-    .text-sm { font-size: var(--text-sm); }
-    .text-base { font-size: var(--text-base); }
-    .text-lg { font-size: var(--text-lg); }
-    .text-xl { font-size: var(--text-xl); }
-    .text-2xl { font-size: var(--text-2xl); }
-    .text-3xl { font-size: var(--text-3xl); }
-    .text-4xl { font-size: var(--text-4xl); }
+    .font-medium { font-weight: 500; } .font-bold { font-weight: 700; }
+    .text-slate-500 { color: var(--slate-500); } .text-slate-700 { color: var(--slate-700); } .text-slate-900 { color: var(--slate-900); }
+    .text-blue-600 { color: var(--blue-600); } .text-green-600 { color: var(--green-600); }
     
-    .font-medium { font-weight: 500; }
-    .font-bold { font-weight: 700; }
-    .text-slate-500 { color: var(--slate-500); }
-    .text-slate-700 { color: var(--slate-700); }
-    .text-slate-900 { color: var(--slate-900); }
-    .text-blue-600 { color: var(--blue-600); }
-    .text-green-600 { color: var(--green-600); }
-    
-    .uppercase { text-transform: uppercase; }
-    .tracking-wide { letter-spacing: 0.05em; }
-    .text-center { text-align: center; }
-    
-    .grid { display: grid; }
-    .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-    .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-    
+    .uppercase { text-transform: uppercase; } .tracking-wide { letter-spacing: 0.05em; } .text-center { text-align: center; }
+    .grid { display: grid; } .grid-cols-2 { grid-template-columns: repeat(2, 1fr); } .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
     .hidden { display: none !important; }
 
     @media (max-width: 768px) {
@@ -165,135 +80,42 @@
       .text-4xl { font-size: var(--text-3xl); }
     }
 
-    /* ==========================================================================
-       COMPONENTS
-       ========================================================================== */
-    
-    /* Navigation */
-    .nav {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: var(--sp-3) 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    
-    .nav-brand {
-      font-weight: 700;
-      font-size: var(--text-lg);
-      color: var(--slate-900);
-      display: flex;
-      align-items: center;
-      gap: var(--sp-2);
-    }
+    /* Navbar */
+    .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: var(--sp-3) 0; position: sticky; top: 0; z-index: 100; }
+    .nav-brand { font-weight: 700; font-size: var(--text-lg); color: var(--slate-900); display: flex; align-items: center; gap: var(--sp-2); }
 
     /* Cards */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: var(--sp-6);
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    
-    .card-icon {
-      background: var(--slate-50);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: var(--sp-4);
-      color: var(--slate-700);
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: var(--sp-6); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: 100%; }
+    .card-icon { background: var(--slate-50); border: 1px solid var(--border); border-radius: var(--radius-md); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; margin-bottom: var(--sp-4); color: var(--slate-700); }
 
-    /* Comparison Box (Ridisegnata per massima leggibilità) */
-    .comparison-box {
-      border: 1px solid var(--slate-300);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-top: auto; /* Spinge la tabella in fondo alla card */
-      background: var(--surface);
-    }
-    .comparison-row {
-      display: grid;
-      grid-template-columns: 90px 1fr; /* Colonna etichetta fissa, colonna contenuto fluida */
-      border-bottom: 1px solid var(--slate-200);
-    }
-    .comparison-row:last-child { 
-      border-bottom: none; 
-    }
-    .comparison-label {
-      background: var(--slate-100);
-      padding: var(--sp-3) var(--sp-2);
-      font-weight: 600;
-      font-size: var(--text-sm);
-      color: var(--slate-900);
-      border-right: 1px solid var(--slate-200);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .comparison-content {
-      padding: var(--sp-3);
-      font-size: var(--text-sm);
-      color: var(--slate-800);
-      display: flex;
-      align-items: center;
-      line-height: 1.4;
-    }
+    /* Comparison Box */
+    .comparison-box { border: 1px solid var(--slate-300); border-radius: var(--radius-lg); overflow: hidden; margin-top: auto; background: var(--surface); }
+    .comparison-row { display: grid; grid-template-columns: 90px 1fr; border-bottom: 1px solid var(--slate-200); }
+    .comparison-row:last-child { border-bottom: none; }
+    .comparison-label { background: var(--slate-100); padding: var(--sp-3) var(--sp-2); font-weight: 600; font-size: var(--text-sm); color: var(--slate-900); border-right: 1px solid var(--slate-200); display: flex; align-items: center; justify-content: center; }
+    .comparison-content { padding: var(--sp-3); font-size: var(--text-sm); color: var(--slate-800); display: flex; align-items: center; line-height: 1.4; }
 
-    /* Status Pills */
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      background: var(--slate-100);
-      color: var(--slate-700);
-      margin-bottom: var(--sp-2);
-    }
+    /* Buttons & Pills */
+    .pill { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--slate-100); color: var(--slate-700); margin-bottom: var(--sp-2); }
     .pill-blue { background: #eff6ff; color: var(--blue-700); }
 
+    .btn { align-items: center; border-radius: var(--radius-md); border: 1px solid transparent; cursor: pointer; display: inline-flex; font-family: inherit; font-size: var(--text-sm); font-weight: 600; gap: var(--sp-2); height: 40px; justify-content: center; padding: 0 var(--sp-4); transition: all var(--transition); user-select: none; width: 100%; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.7; pointer-events: none; cursor: not-allowed; }
+    .btn-primary { background-color: var(--slate-900); color: var(--surface); }
+    .btn-primary:hover { background-color: var(--slate-700); }
+    
+    .btn-outline { background-color: var(--surface); border-color: var(--slate-300); color: var(--slate-700); }
+    .btn-outline:hover { background-color: var(--slate-50); border-color: var(--slate-400); }
+
     /* Interactive Dropzone */
-    .interactive-dropzone {
-      border: 2px dashed var(--slate-300); 
-      border-radius: var(--radius-md); 
-      padding: var(--sp-8) var(--sp-4); 
-      text-align: center; 
-      background: white; 
-      margin-bottom: var(--sp-4);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-    .interactive-dropzone:hover {
-      border-color: var(--blue-600);
-      background: var(--slate-50);
-    }
+    .interactive-dropzone { border: 2px dashed var(--slate-300); border-radius: var(--radius-md); padding: var(--sp-8) var(--sp-4); text-align: center; background: white; margin-bottom: var(--sp-4); cursor: pointer; transition: all var(--transition); }
+    .interactive-dropzone:hover, .interactive-dropzone.dragover { border-color: var(--blue-600); background: var(--slate-50); }
 
     /* Spinner */
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid var(--slate-200);
-      border-top-color: var(--blue-600);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto var(--sp-4) auto;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--slate-200); border-top-color: var(--blue-600); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto var(--sp-4) auto; }
+    .spinner-sm { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -333,43 +155,27 @@
       <div class="grid grid-cols-2 gap-6">
         <div class="card">
           <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
           </div>
           <h3 class="text-xl mb-2">Acquisizione Contatti Automatica</h3>
           <p class="mb-6">Il vecchio archivio su Excel è stato sostituito da un sistema intelligente (CRM). Ora, per salvare un nuovo potenziale cliente, basta un clic direttamente dalla pagina LinkedIn del profilo.</p>
           
           <div class="comparison-box">
-            <div class="comparison-row">
-              <div class="comparison-label">Prima</div>
-              <div class="comparison-content">Copia e incolla manuale dei dati, perdita di tempo prezioso.</div>
-            </div>
-            <div class="comparison-row">
-              <div class="comparison-label">Soluzione</div>
-              <div class="comparison-content font-medium">Importazione istantanea con estensione browser, azzerando il lavoro manuale.</div>
-            </div>
+            <div class="comparison-row"><div class="comparison-label">Prima</div><div class="comparison-content">Copia e incolla manuale dei dati, perdita di tempo prezioso.</div></div>
+            <div class="comparison-row"><div class="comparison-label">Soluzione</div><div class="comparison-content font-medium">Importazione istantanea con estensione browser, azzerando il lavoro manuale.</div></div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
           <h3 class="text-xl mb-2">Dati Sempre Puliti</h3>
           <p class="mb-6">Il nuovo sistema impedisce l'inserimento di informazioni scritte male. Se un'email non ha la "@" o un link non è valido, il sistema lo segnala e lo blocca alla radice.</p>
           
           <div class="comparison-box">
-            <div class="comparison-row">
-              <div class="comparison-label">Prima</div>
-              <div class="comparison-content">Email non valide, contatti doppi, database inaffidabile.</div>
-            </div>
-            <div class="comparison-row">
-              <div class="comparison-label">Soluzione</div>
-              <div class="comparison-content font-medium">Regole ferree di inserimento. Il database rimane ordinato senza sforzo umano.</div>
-            </div>
+            <div class="comparison-row"><div class="comparison-label">Prima</div><div class="comparison-content">Email non valide, contatti doppi, database inaffidabile.</div></div>
+            <div class="comparison-row"><div class="comparison-label">Soluzione</div><div class="comparison-content font-medium">Regole ferree di inserimento. Il database rimane ordinato senza sforzo umano.</div></div>
           </div>
         </div>
       </div>
@@ -386,31 +192,17 @@
 
       <div class="grid grid-cols-3 gap-6">
         <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-          </div>
+          <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg></div>
           <h3 class="text-lg mb-2">Comunicazioni Ordinate</h3>
           <p class="text-sm">Passaggio a WhatsApp per separare le chat di progetto. Nuova regola del "Messaggio Fissato": ogni decisione presa a voce viene riassunta in un messaggio salvato in alto nella chat, in modo che nessuno perda pezzi importanti.</p>
         </div>
-
         <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-            </svg>
-          </div>
+          <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg></div>
           <h3 class="text-lg mb-2">Registro Competenze</h3>
           <p class="text-sm">Un nuovo pannello che mostra immediatamente quali collaboratori sono disponibili, quante ore libere hanno e quali sono le loro specializzazioni. Semplifica e velocizza l'assegnazione dei compiti.</p>
         </div>
-
         <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118.75 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
-            </svg>
-          </div>
+          <div class="card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118.75 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" /></svg></div>
           <h3 class="text-lg mb-2">Visualizzazione Progetti</h3>
           <p class="text-sm">Una bacheca visiva a cascata (Timeline) dove i responsabili possono vedere con un solo sguardo se un progetto sta procedendo nei tempi stabiliti o se ci sono ritardi da gestire, identificando subito i responsabili.</p>
         </div>
@@ -436,79 +228,256 @@
             
             <ul class="flex flex-col gap-3">
               <li class="flex items-center gap-2 text-sm font-medium">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                Correzione autonoma di testi e formattazioni errate.
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg> Correzione autonoma di testi e formattazioni errate.
               </li>
               <li class="flex items-center gap-2 text-sm font-medium">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                Elaborazione sicura: i dati non escono mai dal computer dell'HR.
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg> Elaborazione sicura: i dati non escono mai dal computer dell'HR.
               </li>
               <li class="flex items-center gap-2 text-sm font-medium">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                Genera un nuovo file.
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg> Genera un nuovo file pronto all'uso.
               </li>
             </ul>
           </div>
           
-          <!-- UI Strumento Interattivo -->
+          <!-- UI Strumento Interattivo (FUNZIONANTE) -->
           <div style="background: var(--slate-50); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--sp-4);">
             <div class="flex items-center justify-between mb-4 pb-4" style="border-bottom: 1px solid var(--border);">
               <div class="font-bold text-slate-900">JELU HR Audit</div>
-              <div class="pill" style="margin: 0; background: #dcfce7; color: #166534;">Sicuro & Offline</div>
+              <div class="pill" style="margin: 0; background: var(--green-50); color: var(--green-700);">Sicuro & Offline</div>
             </div>
             
+            <!-- Input File Nascosto -->
+            <input type="file" id="fileInput" accept=".xlsx, .xls" class="hidden" />
+
             <!-- Stato 1: Dropzone -->
             <div id="upload-area" class="interactive-dropzone">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2" style="margin: 0 auto var(--sp-2) auto;">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <div class="text-base font-bold text-slate-900 mb-1">Clicca per caricare il file</div>
-              <div class="text-xs text-slate-500">.xlsx, .csv supportati</div>
+              <div class="text-base font-bold text-slate-900 mb-1">Clicca o trascina il file qui</div>
+              <div class="text-xs text-slate-500">.xlsx, .xls supportati</div>
             </div>
 
-            <!-- Stato 2: Caricamento (Nascosto di default) -->
+            <!-- Stato 2: Caricamento -->
             <div id="loading-area" class="hidden" style="padding: var(--sp-6) 0; text-align: center;">
               <div class="spinner"></div>
               <div class="text-sm font-medium text-slate-700">Analisi e pulizia dei dati in corso...</div>
             </div>
             
-            <!-- Stato 3: Risultati (Nascosto di default) -->
-            <div id="results-area" class="hidden grid-cols-2 gap-2">
-              <div style="background: white; border: 1px solid var(--border); padding: var(--sp-3); border-radius: var(--radius-md); text-align: center;">
-                <div class="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">Anomalie Trovate</div>
-                <div class="text-3xl font-bold text-slate-900">42</div>
+            <!-- Stato 3: Risultati -->
+            <div id="results-area" class="hidden">
+              <div class="grid grid-cols-2 gap-2 mb-4">
+                <div style="background: white; border: 1px solid var(--border); padding: var(--sp-3); border-radius: var(--radius-md); text-align: center;">
+                  <div class="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">Anomalie Trovate</div>
+                  <div id="stat-anomalies" class="text-3xl font-bold text-slate-900">0</div>
+                </div>
+                <div style="background: white; border: 1px solid var(--border); padding: var(--sp-3); border-radius: var(--radius-md); text-align: center; box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.02);">
+                  <div class="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">Corrette in automatico</div>
+                  <div id="stat-fixed" class="text-3xl font-bold text-green-600">0</div>
+                </div>
               </div>
-              <div style="background: white; border: 1px solid var(--border); padding: var(--sp-3); border-radius: var(--radius-md); text-align: center; box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.02);">
-                <div class="text-xs text-slate-500 uppercase tracking-wide font-medium mb-1">Corrette in automatico</div>
-                <div class="text-3xl font-bold text-green-600">42</div>
+              <div class="flex gap-2">
+                <button id="btn-reset" class="btn btn-outline" style="width: auto;">Ricarica</button>
+                <button id="btn-export" class="btn btn-primary" style="flex-grow: 1;">Scarica Dataset Pulito</button>
               </div>
             </div>
+
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Script per gestire l'interazione della UI del caricamento -->
+  <!-- MOTORE DI VALIDAZIONE REALE -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const uploadArea = document.getElementById("upload-area");
-      const loadingArea = document.getElementById("loading-area");
-      const resultsArea = document.getElementById("results-area");
+    let rawData = [];
+    let workingData = [];
+    let anomaliesCount = 0;
 
-      uploadArea.addEventListener("click", () => {
-        // Nasconde il box di caricamento e mostra il caricamento
-        uploadArea.classList.add("hidden");
-        loadingArea.classList.remove("hidden");
+    const fileInput = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('upload-area');
+    const loadingArea = document.getElementById('loading-area');
+    const resultsArea = document.getElementById('results-area');
+    const btnExport = document.getElementById('btn-export');
+    const btnReset = document.getElementById('btn-reset');
+    const statAnomalies = document.getElementById('stat-anomalies');
+    const statFixed = document.getElementById('stat-fixed');
 
-        // Simula il tempo di elaborazione del file (1.5 secondi)
+    // Gestione Drag & Drop e Click
+    uploadArea.addEventListener('click', () => fileInput.click());
+    uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+    uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleFileSelect(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length) handleFileSelect(e.target.files[0]);
+    });
+
+    function handleFileSelect(file) {
+      uploadArea.classList.add('hidden');
+      loadingArea.classList.remove('hidden');
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // Leggero delay per mostrare il caricamento UI in modo elegante
         setTimeout(() => {
-          loadingArea.classList.add("hidden");
-          resultsArea.classList.remove("hidden");
-          // Forza il display a grid rimuovendo hidden
-          resultsArea.style.display = "grid"; 
-        }, 1500);
+          const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+          const sheetName = workbook.SheetNames.includes("Risposte") ? "Risposte" : workbook.SheetNames[0];
+          
+          const json = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { range: 3, defval: null });
+          json.forEach(row => { if ('Colonna1' in row) delete row['Colonna1']; });
+          
+          rawData = json.map(r => ({ ...r }));
+          workingData = json.map(r => ({ ...r }));
+          
+          detectAndFixAnomalies();
+          
+          loadingArea.classList.add('hidden');
+          resultsArea.classList.remove('hidden');
+          resultsArea.style.display = 'block';
+        }, 800);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function detectAndFixAnomalies() {
+      anomaliesCount = 0;
+      workingData.forEach((row, idx) => {
+        // 1. CAP Validation
+        if ('CAP' in row && row['CAP'] !== null) {
+          let capStr = String(row['CAP']).replace(/\D/g, '');
+          if (capStr.length > 0 && capStr.length < 5) {
+            let prov = String(row['Prov.'] || '').toUpperCase().trim();
+            let fixedCap = capStr.padStart(5, '0');
+            if (prov === 'MI' || prov === 'BO') fixedCap = capStr.padEnd(5, '0');
+            workingData[idx]['CAP'] = fixedCap;
+            anomaliesCount++;
+          }
+        }
+        
+        // 2. Email Validation
+        if (' E-mail ' in row) {
+          let email = String(row[' E-mail '] || '').trim();
+          if (email && !email.includes('@') && email.length > 2) {
+            let fixedEmail = email.includes('jeluconsulting.it') ? email.replace('jeluconsulting.it', '@jeluconsulting.it') : "INVALID_" + email;
+            workingData[idx][' E-mail '] = fixedEmail;
+            anomaliesCount++;
+          }
+        }
+        
+        // 3. RAL Normalization
+        if ('RAL (€)' in row && row['RAL (€)'] !== null) {
+          let ralStr = String(row['RAL (€)']).toLowerCase().trim();
+          let parsedRal = ralStr.includes('k') ? parseFloat(ralStr.replace('k', '').replace(',', '.')) * 1000 : parseFloat(ralStr.replace(/\./g, '').replace(',', ''));
+          if (!isNaN(parsedRal)) {
+            if (parsedRal > 200000) {
+              workingData[idx]['RAL (€)'] = Math.round(parsedRal / 10);
+              anomaliesCount++;
+            } else if (ralStr.includes('k')) {
+              workingData[idx]['RAL (€)'] = parsedRal;
+              anomaliesCount++;
+            }
+          }
+        }
+        
+        // 4. Survey Scales (Q1-Q4)
+        ['Q1_Soddisfazione_Generale', 'Q2 - Rapporto col responsabile', 'Q3_WorkLife', 'Q4 Crescita professionale'].forEach(col => {
+          if (col in row && row[col] !== null) {
+            let val = String(row[col]).trim();
+            if (val === '55' || val === '0' || isNaN(val)) {
+              let match = val.match(/\b([1-5])\b/);
+              let fixedVal = match ? parseInt(match[1]) : (val === '55' ? 5 : null);
+              if (fixedVal !== null) {
+                workingData[idx][col] = fixedVal;
+                anomaliesCount++;
+              }
+            }
+          }
+        });
+        
+        // 5. NPS Score (Q5)
+        if ('Q5_NPS (0-10)' in row && row['Q5_NPS (0-10)'] !== null) {
+          let val = String(row['Q5_NPS (0-10)']).trim().toLowerCase();
+          let npsMap = { 'zero':0, 'uno':1, 'due':2, 'tre':3, 'quattro':4, 'cinque':5, 'sei':6, 'sette':7, 'otto':8, 'nove':9, 'dieci':10 };
+          if (npsMap[val] !== undefined) {
+            workingData[idx]['Q5_NPS (0-10)'] = npsMap[val];
+            anomaliesCount++;
+          } else {
+            let num = parseInt(val);
+            if (!isNaN(num) && (num < 0 || num > 10)) {
+              workingData[idx]['Q5_NPS (0-10)'] = Math.min(10, Math.max(0, num));
+              anomaliesCount++;
+            }
+          }
+        }
       });
+
+      statAnomalies.textContent = anomaliesCount;
+      statFixed.textContent = anomaliesCount; // Tutte le anomalie rilevate vengono applicate in questo tool
+    }
+
+    // Reset Tool
+    btnReset.addEventListener('click', () => {
+      fileInput.value = '';
+      rawData = [];
+      workingData = [];
+      resultsArea.classList.add('hidden');
+      resultsArea.style.display = '';
+      uploadArea.classList.remove('hidden');
+    });
+
+    // Esportazione ExcelJS
+    btnExport.addEventListener('click', async () => {
+      if (workingData.length === 0) return;
+
+      const originalHTML = btnExport.innerHTML;
+      btnExport.innerHTML = `<div class="spinner-sm"></div><span>Esportazione...</span>`;
+      btnExport.disabled = true;
+
+      try {
+        const wb = new ExcelJS.Workbook();
+        wb.creator = 'JELU Audit Engine';
+        const ws = wb.addWorksheet('Dati_Puliti');
+        const headers = Object.keys(workingData[0]);
+
+        ws.columns = headers.map(h => ({ header: h, key: h, width: Math.max(h.length + 5, 15) }));
+
+        const headerRow = ws.getRow(1);
+        headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0F172A' } };
+        headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
+        headerRow.height = 24;
+
+        workingData.forEach(row => ws.addRow(row));
+
+        ws.eachRow((row, rowNumber) => {
+          row.eachCell((cell) => {
+            cell.border = {
+              top: { style: 'thin', color: { argb: 'FFE2E8F0' } }, left: { style: 'thin', color: { argb: 'FFE2E8F0' } },
+              bottom: { style: 'thin', color: { argb: 'FFE2E8F0' } }, right: { style: 'thin', color: { argb: 'FFE2E8F0' } }
+            };
+          });
+          if (rowNumber > 1 && rowNumber % 2 === 0) {
+            row.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF8FAFC' } };
+          }
+        });
+
+        ws.autoFilter = { from: { row: 1, column: 1 }, to: { row: workingData.length + 1, column: headers.length } };
+
+        const buffer = await wb.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        saveAs(blob, "JELU_HR_Dataset_Normalizzato.xlsx");
+
+      } catch (error) {
+        console.error("Errore di esportazione:", error);
+        alert("Si è verificato un errore durante l'esportazione del file.");
+      } finally {
+        btnExport.innerHTML = originalHTML;
+        btnExport.disabled = false;
+      }
     });
   </script>
 </body>
